@@ -16,6 +16,7 @@ static u16 termg_bg_color;
 
 void termg_init() {
 
+	printf("\033[?25l");
 	// Save current termios mode.
 	tcgetattr(STDIN_FILENO, &termios_old);
 
@@ -35,6 +36,7 @@ void termg_init() {
 void termg_quit() {
 	// Restore termios mode.
 	tcsetattr(STDIN_FILENO, TCSANOW, &termios_old);
+	printf("\033[?25h");
 }
 
 
@@ -68,8 +70,8 @@ void termg_clear_line(u16 y) {
 			"\033[48;5;%im"
 			"\033[%i;0H"
 			"\033[K",
-			y,
-			termg_bg_color
+			termg_bg_color,
+			y
 			);
 
 }
@@ -106,12 +108,6 @@ void termg_print(u16 x, u16 y, const char* str, ...) {
 			);
 
 }
-
-
-
-
-
-
 
 
 
